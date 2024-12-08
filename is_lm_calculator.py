@@ -1,6 +1,8 @@
 # is_lm_calculator.py
 
 import argparse
+import matplotlib
+import numpy as np
 
 
 def calculate_is_lm_equilibrium(is_intercept, is_slope, lm_intercept, lm_slope):
@@ -15,6 +17,28 @@ def calculate_is_lm_equilibrium(is_intercept, is_slope, lm_intercept, lm_slope):
     Y_eq = (is_intercept - lm_intercept) / denominator
     r_eq = is_intercept - is_slope * Y_eq
     return Y_eq, r_eq
+
+
+def plot_is_lm(is_intercept, is_slope, lm_intercept, lm_slope, Y_eq, r_eq):
+        matplotlib.use("Agg")  # Set backend to save plots as PNG
+        import matplotlib.pyplot as plt
+        
+        Y = np.linspace(0, Y_eq * 2, 500)
+        IS = is_intercept - is_slope * Y
+        LM = lm_intercept + lm_slope * Y
+
+        plt.figure(figsize=(8, 6))
+        plt.plot(Y, IS, label="IS Curve")
+        plt.plot(Y, LM, label="LM Curve")
+        plt.plot([Y_eq], [r_eq], "ro", label="Equilibrium Point")
+        plt.title("IS-LM Model")
+        plt.xlabel("Output (Y)")
+        plt.ylabel("Interest Rate (r)")
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        plt.savefig("IS_LM_Graph.png")
+        print("IS_LM_Graph chart saved as 'IS_LM_Graph.png'")
 
 
 def main():
@@ -36,8 +60,16 @@ def main():
         args.is_intercept, args.is_slope, args.lm_intercept, args.lm_slope
     )
 
-    if Y_eq is None:
-        print("Error: Sum of slopes cannot be zero.")
+    # Call the plotting function if equilibrium exists
+    if Y_eq is not None:
+        plot_is_lm(
+            args.is_intercept,
+            args.is_slope,
+            args.lm_intercept,
+            args.lm_slope,
+            Y_eq,
+            r_eq,
+        )
     else:
         print("\nIS-LM Model Equilibrium Result:")
         print(f"Equilibrium Output (Y*): {Y_eq:.2f}")
