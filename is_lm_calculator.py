@@ -20,25 +20,25 @@ def calculate_is_lm_equilibrium(is_intercept, is_slope, lm_intercept, lm_slope):
 
 
 def plot_is_lm(is_intercept, is_slope, lm_intercept, lm_slope, Y_eq, r_eq):
-        matplotlib.use("Agg")  # Set backend to save plots as PNG
-        import matplotlib.pyplot as plt
-        
-        Y = np.linspace(0, Y_eq * 2, 500)
-        IS = is_intercept - is_slope * Y
-        LM = lm_intercept + lm_slope * Y
+    matplotlib.use("Agg")  # Set backend to save plots as PNG
+    import matplotlib.pyplot as plt
 
-        plt.figure(figsize=(8, 6))
-        plt.plot(Y, IS, label="IS Curve")
-        plt.plot(Y, LM, label="LM Curve")
-        plt.plot([Y_eq], [r_eq], "ro", label="Equilibrium Point")
-        plt.title("IS-LM Model")
-        plt.xlabel("Output (Y)")
-        plt.ylabel("Interest Rate (r)")
-        plt.legend()
-        plt.grid(True)
-        plt.tight_layout()
-        plt.savefig("IS_LM_Graph.png")
-        print("IS_LM_Graph chart saved as 'IS_LM_Graph.png'")
+    Y = np.linspace(0, Y_eq * 2, 500)
+    IS = is_intercept - is_slope * Y
+    LM = lm_intercept + lm_slope * Y
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(Y, IS, label="IS Curve")
+    plt.plot(Y, LM, label="LM Curve")
+    plt.plot([Y_eq], [r_eq], "ro", label="Equilibrium Point")
+    plt.title("IS-LM Model")
+    plt.xlabel("Output (Y)")
+    plt.ylabel("Interest Rate (r)")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("IS_LM_Graph.png")
+    print("IS_LM_Graph chart saved as 'IS_LM_Graph.png'")
 
 
 def main():
