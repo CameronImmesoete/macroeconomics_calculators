@@ -15,7 +15,6 @@ def calculate_equilibrium(ad_intercept, ad_slope, as_intercept, as_slope):
     Y_eq = (ad_intercept - as_intercept) / denominator
     P_eq = ad_intercept - ad_slope * Y_eq
     return Y_eq, P_eq
-    import matplotlib.pyplot as plt
 
     def plot_ad_as(ad_intercept, ad_slope, as_intercept, as_slope, Y_eq, P_eq):
         Y = np.linspace(0, Y_eq * 2, 500)
@@ -58,7 +57,38 @@ def main():
         print("\nAD-AS Model Equilibrium Result:")
         print(f"Equilibrium Output (Y*): {Y_eq:.2f}")
         print(f"Equilibrium Price Level (P*): {P_eq:.2f}")
+        graph = plot_ad_as(args.ad_intercept, args.ad_slope, args.as_intercept, args.as_slope, Y_eq, P_eq)
+        print("\n" + graph)
+def plot_ad_as(ad_intercept, ad_slope, as_intercept, as_slope, Y_eq, P_eq):
+    import matplotlib.pyplot as plt
+    import io
+    import base64
 
+    Y = np.linspace(0, Y_eq * 2, 500)
+    AD = ad_intercept - ad_slope * Y
+    AS = as_intercept + as_slope * Y
+
+    plt.figure(figsize=(8,6))
+    plt.plot(Y, AD, label='Aggregate Demand (AD)')
+    plt.plot(Y, AS, label='Aggregate Supply (AS)')
+    plt.plot([Y_eq], [P_eq], 'ro', label='Equilibrium Point')
+    plt.title('AD-AS Model')
+    plt.xlabel('Output (Y)')
+    plt.ylabel('Price Level (P)')
+    plt.legend()
+    plt.grid(True)
+    
+    # Save plot to base64 string
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+    plt.close()
+    
+    # Convert to base64
+    graph = base64.b64encode(image_png).decode('utf-8')
+    return f"data:image/png;base64,{graph}"
 
 if __name__ == "__main__":
     main()
