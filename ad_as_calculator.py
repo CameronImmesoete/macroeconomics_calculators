@@ -16,7 +16,11 @@ def calculate_equilibrium(ad_intercept, ad_slope, as_intercept, as_slope):
     P_eq = ad_intercept - ad_slope * Y_eq
     return Y_eq, P_eq
 
+
 def plot_ad_as(ad_intercept, ad_slope, as_intercept, as_slope, Y_eq, P_eq):
+    import matplotlib
+
+    matplotlib.use("Agg")  # Set backend to save plots as PNG
     import matplotlib.pyplot as plt
 
     Y = np.linspace(0, Y_eq * 2, 500)
@@ -34,8 +38,7 @@ def plot_ad_as(ad_intercept, ad_slope, as_intercept, as_slope, Y_eq, P_eq):
     plt.grid(True)
     plt.tight_layout()
     plt.savefig("AS_AD_GDP.png")
-    print("Attribute importances chart saved as 'AS_AD_GDP.png'")
-    plt.show()
+    print("AS_AD_GDP chart saved as 'AS_AD_GDP.png'")
 
 
 def main():
