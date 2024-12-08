@@ -1,6 +1,7 @@
 # ad_as_calculator.py
 
 import argparse
+import numpy as np
 
 
 def calculate_equilibrium(ad_intercept, ad_slope, as_intercept, as_slope):
@@ -14,7 +15,23 @@ def calculate_equilibrium(ad_intercept, ad_slope, as_intercept, as_slope):
     Y_eq = (ad_intercept - as_intercept) / denominator
     P_eq = ad_intercept - ad_slope * Y_eq
     return Y_eq, P_eq
+    import matplotlib.pyplot as plt
 
+    def plot_ad_as(ad_intercept, ad_slope, as_intercept, as_slope, Y_eq, P_eq):
+        Y = np.linspace(0, Y_eq * 2, 500)
+        AD = ad_intercept - ad_slope * Y
+        AS = as_intercept + as_slope * Y
+
+        plt.figure(figsize=(8,6))
+        plt.plot(Y, AD, label='Aggregate Demand (AD)')
+        plt.plot(Y, AS, label='Aggregate Supply (AS)')
+        plt.plot([Y_eq], [P_eq], 'ro', label='Equilibrium Point')
+        plt.title('AD-AS Model')
+        plt.xlabel('Output (Y)')
+        plt.ylabel('Price Level (P)')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
 
 def main():
     print("Starting AD-AS Model Calculator...")
