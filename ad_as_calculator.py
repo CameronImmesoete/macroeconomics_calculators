@@ -1,6 +1,7 @@
 # ad_as_calculator.py
 
 import argparse
+
 import numpy as np
 
 
@@ -38,8 +39,8 @@ def plot_ad_as(ad_params, as_params, shifts, equilibria):
     for idx, shift in enumerate(shifts, 2):
         ad_shifted = ad_params["intercept"] - ad_params["slope"] * Y + shift.get("ad_shift", 0)
         as_shifted = as_params["intercept"] + as_params["slope"] * Y + shift.get("as_shift", 0)
-        plt.plot(Y, ad_shifted, label=f"AD Shift {idx-1}", linestyle="--", color=colors[idx])
-        plt.plot(Y, as_shifted, label=f"AS Shift {idx-1}", linestyle="--", color=colors[idx])
+        plt.plot(Y, ad_shifted, label=f"AD Shift {idx - 1}", linestyle="--", color=colors[idx])
+        plt.plot(Y, as_shifted, label=f"AS Shift {idx - 1}", linestyle="--", color=colors[idx])
 
     for key, (Y_eq, P_eq) in equilibria.items():
         plt.plot(Y_eq, P_eq, "o", label=f"{key} Equilibrium")
@@ -59,13 +60,9 @@ def main():
     parser = argparse.ArgumentParser(
         description="Calculate equilibrium output and price level in AD-AS model with curve shifts."
     )
-    parser.add_argument(
-        "--ad_intercept", type=float, default=100.0, help="AD curve intercept"
-    )
+    parser.add_argument("--ad_intercept", type=float, default=100.0, help="AD curve intercept")
     parser.add_argument("--ad_slope", type=float, default=0.5, help="AD curve slope")
-    parser.add_argument(
-        "--as_intercept", type=float, default=20.0, help="AS curve intercept"
-    )
+    parser.add_argument("--as_intercept", type=float, default=20.0, help="AS curve intercept")
     parser.add_argument("--as_slope", type=float, default=0.3, help="AS curve slope")
     for i in range(1, 4):
         parser.add_argument(
@@ -108,7 +105,11 @@ def main():
                     shift["as_shift_slope"] = value
             shifts.append(shift)
 
-    equilibria = {"Base": calculate_equilibrium(ad_params["intercept"], ad_params["slope"], as_params["intercept"], as_params["slope"])}
+    equilibria = {
+        "Base": calculate_equilibrium(
+            ad_params["intercept"], ad_params["slope"], as_params["intercept"], as_params["slope"]
+        )
+    }
     for idx, shift in enumerate(shifts, 1):
         new_ad = ad_params["intercept"] + shift.get("ad_shift", 0)
         new_as = as_params["intercept"] + shift.get("as_shift", 0)

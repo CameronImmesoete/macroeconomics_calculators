@@ -18,9 +18,7 @@ def main():
         default=50.0,
         help="Number of unemployed individuals",
     )
-    parser.add_argument(
-        "--labor_force", type=float, default=1000.0, help="Total labor force"
-    )
+    parser.add_argument("--labor_force", type=float, default=1000.0, help="Total labor force")
 
     args = parser.parse_args()
     rate = calculate_unemployment_rate(args.unemployed, args.labor_force)

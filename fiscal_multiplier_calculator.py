@@ -19,9 +19,7 @@ def calculate_tax_multiplier(mpc):
 
 def main():
     print("Starting Fiscal Multiplier Calculator...")
-    parser = argparse.ArgumentParser(
-        description="Calculate Spending and Tax Multipliers."
-    )
+    parser = argparse.ArgumentParser(description="Calculate Spending and Tax Multipliers.")
     parser.add_argument(
         "--mpc",
         type=float,

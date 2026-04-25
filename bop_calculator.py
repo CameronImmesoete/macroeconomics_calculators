@@ -11,15 +11,9 @@ def calculate_bop(current_account, capital_account, financial_account):
 
 def main():
     print("Starting Balance of Payments (BoP) Calculator...")
-    parser = argparse.ArgumentParser(
-        description="Calculate the overall Balance of Payments."
-    )
-    parser.add_argument(
-        "--current_account", type=float, default=50.0, help="Current account balance"
-    )
-    parser.add_argument(
-        "--capital_account", type=float, default=10.0, help="Capital account balance"
-    )
+    parser = argparse.ArgumentParser(description="Calculate the overall Balance of Payments.")
+    parser.add_argument("--current_account", type=float, default=50.0, help="Current account balance")
+    parser.add_argument("--capital_account", type=float, default=10.0, help="Capital account balance")
     parser.add_argument(
         "--financial_account",
         type=float,
@@ -28,9 +22,7 @@ def main():
     )
 
     args = parser.parse_args()
-    bop_total = calculate_bop(
-        args.current_account, args.capital_account, args.financial_account
-    )
+    bop_total = calculate_bop(args.current_account, args.capital_account, args.financial_account)
 
     print("\nBalance of Payments Calculation Result:")
     print(f"Current Account: {args.current_account:.2f}")

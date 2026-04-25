@@ -1,4 +1,4 @@
-name: CI
+name: ci
 
 on:
   push:
@@ -15,6 +15,8 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11", "3.12"]
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -25,16 +27,16 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: uv sync
+        run: uv sync --frozen --extra dev
 
-      - name: Lint with Ruff
+      - name: Lint with ruff
         run: uv run ruff check .
 
-      - name: Format check with Ruff
+      - name: Format check
         run: uv run ruff format --check .
 
-      - name: Type check with mypy
+      - name: Type check
         run: uv run mypy .
 
       - name: Run tests
-        run: uv run pytest -v
+        run: uv run pytest tests/ -v --tb=short --cov=. --cov-report=term-missing

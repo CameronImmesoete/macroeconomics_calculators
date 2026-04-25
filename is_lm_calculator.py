@@ -1,6 +1,7 @@
 # is_lm_calculator.py
 
 import argparse
+
 import matplotlib
 import numpy as np
 
@@ -36,10 +37,14 @@ def plot_is_lm(is_params, lm_params, shifts, equilibria):
     plt.plot(Y, lm_params["intercept"] + lm_params["slope"] * Y, label="LM", color=colors[1])
 
     for idx, shift in enumerate(shifts, 2):
-        is_shifted = (is_params["intercept"] + shift.get("is_shift_intercept", 0)) - (is_params["slope"] + shift.get("is_shift_slope", 0)) * Y
-        lm_shifted = (lm_params["intercept"] + shift.get("lm_shift_intercept", 0)) + (lm_params["slope"] + shift.get("lm_shift_slope", 0)) * Y
-        plt.plot(Y, is_shifted, label=f"IS Shift {idx-1}", linestyle="--", color=colors[idx])
-        plt.plot(Y, lm_shifted, label=f"LM Shift {idx-1}", linestyle="--", color=colors[idx])
+        is_shifted = (is_params["intercept"] + shift.get("is_shift_intercept", 0)) - (
+            is_params["slope"] + shift.get("is_shift_slope", 0)
+        ) * Y
+        lm_shifted = (lm_params["intercept"] + shift.get("lm_shift_intercept", 0)) + (
+            lm_params["slope"] + shift.get("lm_shift_slope", 0)
+        ) * Y
+        plt.plot(Y, is_shifted, label=f"IS Shift {idx - 1}", linestyle="--", color=colors[idx])
+        plt.plot(Y, lm_shifted, label=f"LM Shift {idx - 1}", linestyle="--", color=colors[idx])
 
     for key, (Y_eq, r_eq) in equilibria.items():
         if Y_eq is not None:
@@ -60,13 +65,9 @@ def main():
     parser = argparse.ArgumentParser(
         description="Find equilibrium interest rate and output in IS-LM model with curve shifts."
     )
-    parser.add_argument(
-        "--is_intercept", type=float, default=10.0, help="IS curve intercept"
-    )
+    parser.add_argument("--is_intercept", type=float, default=10.0, help="IS curve intercept")
     parser.add_argument("--is_slope", type=float, default=0.5, help="IS curve slope")
-    parser.add_argument(
-        "--lm_intercept", type=float, default=2.0, help="LM curve intercept"
-    )
+    parser.add_argument("--lm_intercept", type=float, default=2.0, help="LM curve intercept")
     parser.add_argument("--lm_slope", type=float, default=0.2, help="LM curve slope")
     for i in range(1, 4):
         parser.add_argument(
@@ -109,7 +110,11 @@ def main():
                     shift["lm_shift_slope"] = value
             shifts.append(shift)
 
-    equilibria = {"Base": calculate_equilibrium(is_params["intercept"], is_params["slope"], lm_params["intercept"], lm_params["slope"])}
+    equilibria = {
+        "Base": calculate_equilibrium(
+            is_params["intercept"], is_params["slope"], lm_params["intercept"], lm_params["slope"]
+        )
+    }
     for idx, shift in enumerate(shifts, 1):
         new_is_intercept = is_params["intercept"] + shift.get("is_shift_intercept", 0)
         new_is_slope = is_params["slope"] + shift.get("is_shift_slope", 0)
