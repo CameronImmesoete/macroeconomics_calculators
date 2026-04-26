@@ -11,9 +11,7 @@ def calculate_inflation_rate(index_current, index_previous):
 
 def main():
     print("Starting Inflation Rate Calculator...")
-    parser = argparse.ArgumentParser(
-        description="Calculate Inflation Rate based on price indices."
-    )
+    parser = argparse.ArgumentParser(description="Calculate Inflation Rate based on price indices.")
     parser.add_argument(
         "--index_current",
         type=float,

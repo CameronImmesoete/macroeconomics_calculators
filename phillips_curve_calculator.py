@@ -1,6 +1,7 @@
 # phillips_curve_calculator.py
 
 import argparse
+
 import matplotlib
 import numpy as np
 
@@ -18,16 +19,12 @@ def apply_shift(intercept, slope, shift):
     return intercept, slope
 
 
-def plot_phillips_curve(
-    base_params, shifts, current_unemployment, inflation_rate, equilibria
-):
+def plot_phillips_curve(base_params, shifts, current_unemployment, inflation_rate, equilibria):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     unemployment = np.linspace(0, current_unemployment * 2, 500)
-    inflation_base = calculate_phillips_relationship(
-        base_params["intercept"], base_params["slope"], unemployment
-    )
+    inflation_base = calculate_phillips_relationship(base_params["intercept"], base_params["slope"], unemployment)
 
     plt.figure(figsize=(8, 6))
     plt.plot(unemployment, inflation_base, label="Phillips Curve", color="blue")
@@ -35,12 +32,8 @@ def plot_phillips_curve(
     colors = ["green", "orange", "purple"]
 
     for idx, shift in enumerate(shifts):
-        shifted_intercept, shifted_slope = apply_shift(
-            base_params["intercept"], base_params["slope"], shift
-        )
-        inflation_shifted = calculate_phillips_relationship(
-            shifted_intercept, shifted_slope, unemployment
-        )
+        shifted_intercept, shifted_slope = apply_shift(base_params["intercept"], base_params["slope"], shift)
+        inflation_shifted = calculate_phillips_relationship(shifted_intercept, shifted_slope, unemployment)
         plt.plot(
             unemployment,
             inflation_shifted,
@@ -81,12 +74,8 @@ def main():
         default=5.0,
         help="Phillips curve inflation intercept",
     )
-    parser.add_argument(
-        "--inflation_slope", type=float, default=0.5, help="Phillips curve slope"
-    )
-    parser.add_argument(
-        "--unemployment", type=float, default=6.0, help="Unemployment rate (%)"
-    )
+    parser.add_argument("--inflation_slope", type=float, default=0.5, help="Phillips curve slope")
+    parser.add_argument("--unemployment", type=float, default=6.0, help="Unemployment rate (%)")
     for i in range(1, 4):
         parser.add_argument(
             f"--shift{i}_type",
@@ -110,18 +99,12 @@ def main():
             shift = {"type": shift_type, "value": shift_value}
             shifts.append(shift)
 
-    inflation_rate = calculate_phillips_relationship(
-        base_params["intercept"], base_params["slope"], args.unemployment
-    )
+    inflation_rate = calculate_phillips_relationship(base_params["intercept"], base_params["slope"], args.unemployment)
 
     equilibria = {"Base": (args.unemployment, inflation_rate)}
     for idx, shift in enumerate(shifts, 1):
-        shifted_intercept, shifted_slope = apply_shift(
-            base_params["intercept"], base_params["slope"], shift
-        )
-        infl_shifted = calculate_phillips_relationship(
-            shifted_intercept, shifted_slope, args.unemployment
-        )
+        shifted_intercept, shifted_slope = apply_shift(base_params["intercept"], base_params["slope"], shift)
+        infl_shifted = calculate_phillips_relationship(shifted_intercept, shifted_slope, args.unemployment)
         equilibria[f"Shift {idx}"] = (args.unemployment, infl_shifted)
 
     print("\nPhillips Curve Calculation Result:")
@@ -130,9 +113,7 @@ def main():
     for key, (unemp, infl) in equilibria.items():
         print(f"{key} Equilibrium: Unemployment = {unemp:.2f}%, Inflation = {infl:.2f}%")
 
-    plot_phillips_curve(
-        base_params, shifts, args.unemployment, inflation_rate, equilibria
-    )
+    plot_phillips_curve(base_params, shifts, args.unemployment, inflation_rate, equilibria)
 
 
 if __name__ == "__main__":

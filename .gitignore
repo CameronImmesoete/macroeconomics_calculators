@@ -1,5 +1,7 @@
-   *.pyc
-   __pycache__/
-   *.egg-info/
-   .env
-   .venv
+*.pyc
+__pycache__/
+*.egg-info/
+.env
+.venv/
+.coverage
+.pytest_cache/

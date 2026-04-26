@@ -11,9 +11,7 @@ def calculate_exchange_rate(amount, rate):
 def main():
     print("Starting Exchange Rate Calculator...")
     parser = argparse.ArgumentParser(description="Calculate converted currency amount.")
-    parser.add_argument(
-        "--amount", type=float, default=100.0, help="Amount in base currency"
-    )
+    parser.add_argument("--amount", type=float, default=100.0, help="Amount in base currency")
     parser.add_argument(
         "--rate",
         type=float,
